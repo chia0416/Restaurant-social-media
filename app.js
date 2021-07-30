@@ -4,6 +4,8 @@ const db = require('./models')
 const app = express()
 const port = 3000
 
+app.use(express.urlencoded({extended: true}))
+
 app.engine('handlebars', handlebars())
 app.set('view engine', 'handlebars')
 
