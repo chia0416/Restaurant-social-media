@@ -43,6 +43,28 @@ const adminController = {
     return Restaurant.findByPk(req.params.id, {raw:true}).then(restaurant =>{
       return res.render('admin/create', { restaurant })
     })
-  }
+  },
+  putRestaurant: (req, res) => {
+    const { name, tel, address, opening_hours, description} = req.body
+    if (!name) {
+      req.flash('error_messages', '請填寫餐廳名稱!')
+      return res.redirect('back')
+    }
+    return Restaurant.findByPk(req.params.id)
+    .then((restaurant) => {
+      restaurant.update({
+        name,
+        tel,
+        address,
+        opening_hours,
+        description
+      })
+      .then((restaurant) => {
+        req.flash('success_messages', '已成功建立餐廳名單')
+        res.redirect('/admin/restaurants')
+      })
+    })  
+  },
 }
+
 module.exports = adminController
