@@ -2,12 +2,13 @@ const db = require('../models')
 const Restaurant = db.Restaurant
 
 const adminController = {
+  //瀏覽頁面
   getRestaurants: (req, res) => {
     return Restaurant.findAll({raw: true}).then(restaurants => {
       return res.render('admin/restaurants', {restaurants: restaurants})
     })
   },
-
+  //新增資料
   createRestaurant: (req, res) => {
     return res.render('admin/create')
   },
@@ -29,12 +30,18 @@ const adminController = {
       res.redirect('/admin/restaurants')
     })
   },
-
+  //瀏覽餐廳
   getRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, {raw:true}).then(restaurant => {
       return res.render('admin/restaurant', {
         restaurant
       })
+    })
+  },
+  //編輯餐廳
+  editRestaurant: (req, res) => {
+    return Restaurant.findByPk(req.params.id, {raw:true}).then(restaurant =>{
+      return res.render('admin/create', { restaurant })
     })
   }
 }
