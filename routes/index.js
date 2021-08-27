@@ -3,19 +3,21 @@ const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController.js')
 const multer  = require('multer')
 const upload = multer({ dest: 'temp/' })
-
+const helpers = require('../_helpers')
+// req.user -> helpers.getUser(req)
+// req.isAuthenticated() -> helpers.ensureAuthenticated(req)
 
 module.exports = (app, passport) => {
   //帳號驗證
   const authenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (helpers.ensureAuthenticated(req)) {
       return next()
     }
     res.redirect('/signin')
   }
   const authenticatedAdmin = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      if (req.user.isAdmin) { return next() }
+    if (helpers.ensureAuthenticated(req)) {
+      if (helpers.getUser(req).isAdmin) { return next() }
       return res.redirect('/')
     }
     res.redirect('/signin')
@@ -26,6 +28,7 @@ module.exports = (app, passport) => {
   app.get('/restaurants', authenticated, restController.getRestaurants)
 
   //管理者頁面
+  //CURD
   app.get('/admin', authenticatedAdmin, (req, res) => { res.redirect('/admin/restaurants') })
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
   app.get('/admin/restaurants/create',authenticatedAdmin, adminController.createRestaurant)
@@ -34,6 +37,9 @@ module.exports = (app, passport) => {
   app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
   app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
+  //使用者變更
+  app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
+  app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin)
 
   //註冊頁面
   app.get('/signup', userController.signUpPage)
