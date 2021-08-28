@@ -135,8 +135,8 @@ const adminController = {
       user.update({
         isAdmin : !user.isAdmin
       })
-      .then(() => {
-        req.flash('success_messages', '使用者名單已更新')
+      .then((user) => {
+        req.flash('success_messages', `${user.name}的使用者權限已更新`)
         res.redirect('/admin/users')
       })
     })
