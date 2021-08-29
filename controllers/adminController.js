@@ -3,6 +3,7 @@ const Restaurant = db.Restaurant
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const User = db.User
 
 const adminController = {
   //瀏覽頁面
@@ -119,6 +120,24 @@ const adminController = {
       restaurant.destroy()
       .then((restaurant) => {
         res.redirect('/admin/restaurants')
+      })
+    })
+  },
+  //使用者變更
+  getUsers: (req, res) => {
+    return User.findAll({raw: true}).then(users => {
+      return res.render('admin/users', {users})
+    })
+  },
+  toggleAdmin: (req, res) => {
+    return User.findByPk(req.params.id)
+    .then((user) => {
+      user.update({
+        isAdmin : !user.isAdmin
+      })
+      .then((user) => {
+        req.flash('success_messages', `${user.name}的使用者權限已更新`)
+        res.redirect('/admin/users')
       })
     })
   }
