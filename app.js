@@ -16,7 +16,10 @@ const port = process.env.PORT || 3000
 
 app.use(express.urlencoded({extended: true}))
 
-app.engine('handlebars', handlebars())
+app.engine('handlebars', handlebars({
+  defaultLayout:'main',
+  helpers: require('./config/handlebars-helpers')
+}))
 app.set('view engine', 'handlebars')
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false}))
 app.use(passport.initialize())
