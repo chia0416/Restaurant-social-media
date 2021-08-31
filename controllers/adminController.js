@@ -81,12 +81,20 @@ const adminController = {
   },
   //編輯餐廳
   editRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id, {raw:true}).then(restaurant =>{
-      return res.render('admin/create', { restaurant })
-    })
+    Category.findAll({
+      raw: true,
+      nest: true
+    }).then(categories => {
+      return Restaurant.findByPk(req.params.id).then(restaurant =>{
+        return res.render('admin/create', { 
+          categories, 
+          restaurant: restaurant.toJSON() 
+        })
+      })
+    })   
   },
   putRestaurant: (req, res) => {
-    const { name, tel, address, opening_hours, description} = req.body
+    const { name, tel, address, opening_hours, description, categoryId} = req.body
     const { file } = req
     if (!name) {
       req.flash('error_messages', '請填寫餐廳名稱!')
@@ -103,7 +111,8 @@ const adminController = {
               address,
               opening_hours,
               description,
-              image: file ? img.data.link : restaurant.image
+              image: file ? img.data.link : restaurant.image,
+              CategoryId: categoryId
             })
             .then((restaurant) => {
               req.flash('success_messages', '已成功建立餐廳名單')
@@ -120,7 +129,8 @@ const adminController = {
           address,
           opening_hours,
           description,
-          image:restaurant.image
+          image:restaurant.image,
+          CategoryId: categoryId
         })
         .then((restaurant) => {
           req.flash('success_messages', '已成功建立餐廳名單')
