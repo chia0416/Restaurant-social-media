@@ -19,10 +19,17 @@ const adminController = {
   },
   //新增資料
   createRestaurant: (req, res) => {
-    return res.render('admin/create')
+    Category.findAll({
+      raw: true,
+      nest: true,
+    }).then(categories => {
+      return res.render('admin/create', {
+        categories: categories
+      })
+    })
   },
   postRestaurant: (req, res) => {
-    const { name, tel, address, opening_hours, description} = req.body
+    const { name, tel, address, opening_hours, description, categoryId} = req.body
     const { file } = req
     if (!name) {
       req.flash('error_messages', '請填寫餐廳名稱!')
@@ -38,7 +45,8 @@ const adminController = {
           address,
           opening_hours,
           description,
-          image: file ? img.data.link : null
+          image: file ? img.data.link : null,
+          CategoryId: categoryId
         })
         .then((restaurant) => {
           req.flash('success_messages', '已成功建立餐廳名單')
@@ -52,7 +60,8 @@ const adminController = {
         address,
         opening_hours,
         description,
-        image: null
+        image: null,
+        CategoryId: categoryId
       })
       .then((restaurant) => {
         req.flash('success_messages', '已成功建立餐廳名單')
