@@ -150,20 +150,11 @@ const adminController = {
     })
   },
   //使用者變更
-  getUsers: async (req, res) => {
-    try{
+  getUsers: (req, res) => {
       const userId = req.user.id
-      return await User.findAll({raw: true}).then(users => {
-         users.forEach((user) => {
-          user.isUserId = user.id === userId
-        })
-        console.log(users)
-        res.render('admin/users', {users})
+      return User.findAll({raw: true}).then(users => {
+        res.render('admin/users', {users, userId})
       })
-
-    } catch (e) {
-      console.log(e)
-    }
   },
   toggleAdmin: (req, res) => {
     return User.findByPk(req.params.id)

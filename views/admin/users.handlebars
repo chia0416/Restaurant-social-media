@@ -25,11 +25,11 @@
        {{#if this.isAdmin}} 
        <td>admin</td> 
            <td>
-        {{#unless this.isUserId}}
+        {{#ifNotCond this.id ../userId}}
         <form action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT" method="POST" style="display: inline;">
            <button type="submit" class="btn btn-link">set as user</button>
         </form>
-        {{/unless}}
+        {{/ifNotCond}}
       </td>
        {{else}} 
        <td>user</td> 
