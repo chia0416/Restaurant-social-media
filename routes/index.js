@@ -46,7 +46,8 @@ module.exports = (app, passport) => {
   //目錄管理頁面 => categoryController
   //CURD
   app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
-
+  app.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
+  
   // 註冊頁面 => userController
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
