@@ -1,6 +1,7 @@
 const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController.js')
+const categoryController = require('../controllers/categoryController.js')
 const multer  = require('multer')
 const upload = multer({ dest: 'temp/' })
 const helpers = require('../_helpers')
@@ -23,13 +24,14 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
 
-  //使用者頁面
+  //使用者頁面 => restController
   app.get('/', authenticated, (req, res) => { res.redirect('/restaurants') })
   app.get('/restaurants', authenticated, restController.getRestaurants)
 
-  //管理者頁面
-  //CURD
+  //管理者頁面 => adminController
+  //得到管理者授權
   app.get('/admin', authenticatedAdmin, (req, res) => { res.redirect('/admin/restaurants') })
+  //CURD
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
   app.get('/admin/restaurants/create',authenticatedAdmin, adminController.createRestaurant)
   app.post('/admin/restaurants', authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
@@ -41,7 +43,11 @@ module.exports = (app, passport) => {
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
   app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin)
 
-  //註冊頁面
+  //目錄管理頁面 => categoryController
+  //CURD
+  app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
+
+  // 註冊頁面 => userController
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
   
