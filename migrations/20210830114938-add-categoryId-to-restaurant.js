@@ -8,7 +8,7 @@ module.exports = {
         model: 'Categories',
         key: 'id'
       },
-      onDelete: 'SET NULL',
+      onDelete: 'SET NULL'
     })
   },
 
