@@ -4,18 +4,34 @@ const Category = db.Category
 
 const restController = {
   getRestaurants: (req, res) => {
+    const whereQuery = {}
+    let categoryId = ''
+    if(req.query.categoryId){
+      categoryId = Number(req.query.categoryId)
+      whereQuery.CategoryId = categoryId
+    }
+
     Restaurant.findAll({
-      include: Category
-    })
-      .then(restaurants => {
+      include: Category,
+      where: whereQuery
+    }).then(restaurants => {
+        console.log(whereQuery)
         //將restaurants 內部資料展開一一傳入data
         const data = restaurants.map (r => ({
           ...r.dataValues,
           description: r.dataValues.description.substring(0, 50),
           categoryName: r.Category.name  //如果類別為空則跳BUG
         }))
-        return res.render('restaurants', {
-          restaurants: data
+        console.log(categoryId)
+        Category.findAll({
+          raw: true,
+          nest: true
+        }).then(categories => {
+          return res.render('restaurants', {
+            restaurants: data,
+            categories: categories,
+            categoryId: categoryId,
+          })
         })
       })
   },
