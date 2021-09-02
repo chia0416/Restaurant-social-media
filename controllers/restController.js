@@ -2,27 +2,42 @@ const db  = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
 
+const pageLimit = 10
+
 const restController = {
   getRestaurants: (req, res) => {
+    let offset = 0  //偏移量,從第0筆開始
     const whereQuery = {}
     let categoryId = ''
-    if(req.query.categoryId){
-      categoryId = Number(req.query.categoryId)
-      whereQuery.CategoryId = categoryId
+
+    if(req.query.page) {
+      offset = (req.query.page - 1) * pageLimit
     }
 
-    Restaurant.findAll({
+    if(req.query.categoryId) {
+      categoryId = Number(req.query.categoryId)
+      whereQuery.categoryId = categoryId
+    }
+
+    Restaurant.findAndCountAll({
       include: Category,
-      where: whereQuery
-    }).then(restaurants => {
-        console.log(whereQuery)
+      where: whereQuery,
+      offset : offset,
+      limit: pageLimit
+    }).then(result => {
+        //定義頁數資料變數
+        const page = Number(req.query.page) || 1
+        const pages = Math.ceil(result.count / pageLimit)
+        const totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
+        const prev = page - 1 < 1 ? 1 : page - 1
+        const next = page + 1 > pages ? 1 : page + 1
+
         //將restaurants 內部資料展開一一傳入data
-        const data = restaurants.map (r => ({
+        const data = result.rows.map (r => ({
           ...r.dataValues,
           description: r.dataValues.description.substring(0, 50),
-          categoryName: r.Category.name  //如果類別為空則跳BUG
+          categoryName: r.dataValues.Category.name  //如果類別為空則跳BUG
         }))
-        console.log(categoryId)
         Category.findAll({
           raw: true,
           nest: true
@@ -31,6 +46,10 @@ const restController = {
             restaurants: data,
             categories: categories,
             categoryId: categoryId,
+            page: page,
+            totalPage: totalPage,
+            prev: prev,
+            next: next
           })
         })
       })
