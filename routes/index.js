@@ -27,9 +27,13 @@ module.exports = (app, passport) => {
   }
 
   // 使用者頁面 => restController
+  // 使用者登入及註冊頁
   app.get('/', authenticated, (req, res) => { res.redirect('/restaurants') })
   app.get('/restaurants', authenticated, restController.getRestaurants)
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
+  // 使用者Profile頁面
+  app.get('/users/:id', authenticated, userController.getUser)
+
 
   // 管理者頁面 => adminController
   // 得到管理者授權
@@ -42,7 +46,7 @@ module.exports = (app, passport) => {
   app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
   app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
-  // 使用者變更
+  // 變更使用者權限頁面
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
   app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin)
 

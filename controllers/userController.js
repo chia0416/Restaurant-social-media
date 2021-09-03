@@ -3,6 +3,7 @@ const db = require('../models')
 const User = db.User
 
 const userController = {
+  //登入註冊頁面
   signUpPage: (req, res) => {
     return res.render('signup')
   },
@@ -44,7 +45,19 @@ const userController = {
     req.flash('success_messages', '成功登出!')
     req.logout()
     res.redirect('/signin')
-  }
+  },
+
+  //Profile頁面
+  getUser: (req, res) => {
+    // prevent access to other user profile
+    if (req.user.id !== Number(req.params.id)) {
+      return res.redirect(`/users/${req.user.id}`)
+    }
+    return User.findByPk(req.params.id)
+      .then(user => {
+        return res.render('profile', { user: user.toJSON() })
+      })
+  },
 }
 
 module.exports = userController
