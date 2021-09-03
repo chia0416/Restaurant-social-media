@@ -9,7 +9,7 @@ const db = require('../models')
 const helpers = require('../_helpers');
 
 describe('# A19: 建立 User Profile', function() {
-    
+
   context('# [瀏覽 Profile]', () => {
     before(async() => {
       this.ensureAuthenticated = sinon.stub(
@@ -19,6 +19,7 @@ describe('# A19: 建立 User Profile', function() {
         helpers, 'getUser'
       ).returns({id: 1, Followings: []});
 
+      await db.User.destroy({where: {},truncate: true})
       await db.User.create({name: 'User1'})
     })
 
@@ -34,11 +35,9 @@ describe('# A19: 建立 User Profile', function() {
     after(async () => {
       this.ensureAuthenticated.restore();
       this.getUser.restore();
-
-      await db.Comment.destroy({where: {},truncate: true})
-      await db.Restaurant.destroy({where: {},truncate: true})
-      await db.sequelize.truncate()
+      await db.User.destroy({where: {},truncate: true})
     })
+
   })
 
   context('# [瀏覽編輯 Profile 頁面]', () => {
@@ -50,6 +49,7 @@ describe('# A19: 建立 User Profile', function() {
         helpers, 'getUser'
       ).returns({id: 1});
 
+      await db.User.destroy({where: {},truncate: true})
       await db.User.create({name: 'User1'})
     })
 
@@ -71,9 +71,7 @@ describe('# A19: 建立 User Profile', function() {
     after(async () => {
       this.ensureAuthenticated.restore();
       this.getUser.restore();
-      await db.Comment.destroy({where: {},truncate: true})
-      await db.Restaurant.destroy({where: {},truncate: true})
-      await db.sequelize.truncate()
+      await db.User.destroy({where: {},truncate: true})
     })
 
   })
@@ -87,6 +85,7 @@ describe('# A19: 建立 User Profile', function() {
         helpers, 'getUser'
       ).returns({id: 1});
 
+      await db.User.destroy({where: {},truncate: true})
       await db.User.create({name: 'User1'})
     })
 
@@ -106,11 +105,9 @@ describe('# A19: 建立 User Profile', function() {
     after(async () => {
       this.ensureAuthenticated.restore();
       this.getUser.restore();
-      await db.Comment.destroy({where: {},truncate: true})
-      await db.Restaurant.destroy({where: {},truncate: true})
-      await db.sequelize.truncate()
+      await db.User.destroy({where: {},truncate: true})
     })
 
   })
 
-})
+}) 

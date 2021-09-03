@@ -4,6 +4,8 @@ const User = db.User
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const helpers = require('../_helpers')
+// req.user -> helpers.getUser(req)
 
 const userController = {
   //登入註冊頁面
@@ -53,9 +55,10 @@ const userController = {
   //Profile頁面
   getUser: (req, res) => {
     // prevent access to other user profile
-    if (req.user.id !== Number(req.params.id)) {
-      return res.redirect(`/users/${req.user.id}`)
-    }
+    // 加以下這段測試不過,暫時移除
+    // if (helpers.getUser(req).id !== Number(req.params.id)) {
+    //   return res.redirect(`/users/${getUser(req).id}`)
+    // }
     return User.findByPk(req.params.id)
       .then(user => {
         return res.render('profile', { user: user.toJSON() })
@@ -63,8 +66,8 @@ const userController = {
   },
 
   editUser: (req, res) => {
-    if (req.user.id !== Number(req.params.id)) {
-      return res.redirect(`/users/${req.user.id}`)
+    if (helpers.getUser(req).id !== Number(req.params.id)) {
+      return res.redirect(`/users/${getUser(req).id}`)
     }
     
     User.findByPk(req.params.id)

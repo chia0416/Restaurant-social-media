@@ -5,6 +5,8 @@ const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const User = db.User
 const Category = db.Category
+const helpers = require('../_helpers')
+// req.user -> helpers.getUser(req)
 
 const adminController = {
   // 瀏覽頁面
@@ -151,7 +153,7 @@ const adminController = {
   },
   // 使用者變更
   getUsers: (req, res) => {
-    const userId = req.user.id
+    const userId = getUser(req).id
     return User.findAll({ raw: true }).then(users => {
       res.render('admin/users', { users, userId })
     })
