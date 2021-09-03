@@ -34,6 +34,7 @@ module.exports = (app, passport) => {
   // 使用者Profile頁面
   app.get('/users/:id', authenticated, userController.getUser)
   app.get('/users/:id/edit', authenticated, userController.editUser)
+  app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
   // 管理者頁面 => adminController
   // 得到管理者授權
