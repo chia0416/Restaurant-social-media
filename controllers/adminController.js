@@ -153,7 +153,7 @@ const adminController = {
   },
   // 使用者變更
   getUsers: (req, res) => {
-    const userId = getUser(req).id
+    const userId = helpers.getUser(req).id
     return User.findAll({ raw: true }).then(users => {
       res.render('admin/users', { users, userId })
     })

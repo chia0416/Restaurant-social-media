@@ -55,10 +55,9 @@ const userController = {
   //Profile頁面
   getUser: (req, res) => {
     // prevent access to other user profile
-    // 加以下這段測試不過,暫時移除
-    // if (helpers.getUser(req).id !== Number(req.params.id)) {
-    //   return res.redirect(`/users/${getUser(req).id}`)
-    // }
+    if (helpers.getUser(req).id !== Number(req.params.id)) {
+      return res.redirect(`/users/${getUser(req).id}`)
+    }
     return User.findByPk(req.params.id)
       .then(user => {
         return res.render('profile', { user: user.toJSON() })
