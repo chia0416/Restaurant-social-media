@@ -58,6 +58,13 @@ const userController = {
         return res.render('profile', { user: user.toJSON() })
       })
   },
+
+  editUser: (req, res) => {
+    User.findByPk(req.params.id)
+      .then(user => {
+        return res.render('editProfile', { user : user.toJSON() })
+      })
+  }
 }
 
 module.exports = userController

@@ -33,7 +33,7 @@ module.exports = (app, passport) => {
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
   // 使用者Profile頁面
   app.get('/users/:id', authenticated, userController.getUser)
-
+  app.get('/users/:id/edit', authenticated, userController.editUser)
 
   // 管理者頁面 => adminController
   // 得到管理者授權
