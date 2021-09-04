@@ -105,7 +105,7 @@ const userController = {
             })
               .then((user) => {
                 req.flash('success_messages', '已成功更改資料')
-                res.redirect(`/users/${req.user.id}`)
+                res.redirect(`/users/${helpers.getUser(req).id}`)
               })
           })
       })
@@ -118,7 +118,7 @@ const userController = {
           })
             .then((user) => {
               req.flash('success_messages', '已成功更改資料')
-              res.redirect('/users/${req.user.id}')
+              res.redirect(`/users/${helpers.getUser(req).id}`)
             })
         })
     }
@@ -126,7 +126,7 @@ const userController = {
 
   addFavorite: (req, res) => {
     return Favorite.create({
-      UserId: req.user.id,
+      UserId: helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
     }).then(() => {
       return res.redirect('back')
@@ -136,7 +136,7 @@ const userController = {
   removeFavorite: (req, res) => {
     return Favorite.findOne({
       where: {
-        UserId: req.user.id,
+        UserId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
     }).then(favorite => {
@@ -149,7 +149,7 @@ const userController = {
 
   addLike: (req, res) => {
     return Like.create({
-      UserId: req.user.id,
+      UserId: helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
     }).then(() => {
       return res.redirect('back')
@@ -159,7 +159,7 @@ const userController = {
   removeLike: (req, res) => {
     return Like.findOne({
       where: {
-        UserId: req.user.id,
+        UserId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
     }).then(favorite => {
@@ -179,7 +179,7 @@ const userController = {
       users = users.map(user => ({
         ...user.dataValues,
         FollowerCount: user.Followers.length,
-        isFollowed: req.user.Followings.map(d => d.id).includes(user.id)
+        isFollowed: helpers.getUser(req).Followings.map(d => d.id).includes(user.id)
       }))
       users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
       return res.render('topUser', { users })
@@ -188,7 +188,7 @@ const userController = {
 
   addFollowing: (req, res) => {
     return Followship.create({
-      followerId: req.user.id,
+      followerId: helpers.getUser(req),
       followingId: req.params.userId
     }).then(() => {
       return res.redirect('back')
@@ -198,7 +198,7 @@ const userController = {
   removeFollowing: (req, res) => {
     return Followship.findOne({
       where: {
-        followerId: req.user.id,
+        followerId: helpers.getUser(req),
         followingId: req.params.userId
       }
     }).then(followship => {

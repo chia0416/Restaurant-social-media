@@ -1,12 +1,12 @@
 const db = require('../models')
 const Comment = db.Comment
-
+// req.user -> helpers.getUser(req)
 const commentController = {
   postComment: (req, res) => {
     return Comment.create({
       text: req.body.text,
       RestaurantId: req.body.restaurantId,
-      UserId: req.user.id
+      UserId: helpers.getUser(req).id
     })
       .then((comment) => {
         res.redirect(`/restaurants/${req.body.restaurantId}`)

@@ -5,7 +5,7 @@ const Comment = db.Comment
 const User = db.User
 
 const pageLimit = 10
-
+// req.user -> helpers.getUser(req)
 const restController = {
   getRestaurants: (req, res) => {
     let offset = 0 // 偏移量,從第0筆開始
@@ -39,8 +39,8 @@ const restController = {
         ...r.dataValues,
         description: r.dataValues.description.substring(0, 50),
         categoryName: r.dataValues.Category.name,
-        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id),
-        isLike: req.user.LikeRestaurants.map(d => d.id).includes(r.id)
+        isFavorited: helpers.getUser(req).FavoritedRestaurants.map(d => d.id).includes(r.id),
+        isLike: helpers.getUser(req).LikeRestaurants.map(d => d.id).includes(r.id)
       }))
       Category.findAll({
         raw: true,
@@ -68,8 +68,8 @@ const restController = {
         { model: Comment, include: [User] }
       ]
     }).then(restaurant => {
-      const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
-      const isLike = restaurant.LikeUsers.map(d => d.id).includes(req.user.id)
+      const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(helpers.getUser(req).id)
+      const isLike = restaurant.LikeUsers.map(d => d.id).includes(helpers.getUser(req).id)
       restaurant.increment('viewCounts')
       return res.render('restaurant', {
         restaurant: restaurant.toJSON(),
@@ -127,7 +127,7 @@ const restController = {
       const topRestaurants = await rawRestaurants.map(restaurant => ({
         ...restaurant.dataValues,
         FavoritedCount: restaurant.FavoritedUsers.length,
-        isFavorited: req.user.FavoritedRestaurants.map(favorites => favorites.id).includes(restaurant.id)
+        isFavorited: helpers.getUser(req).FavoritedRestaurants.map(favorites => favorites.id).includes(restaurant.id)
       }))
       topRestaurants.sort((a, b) => b.FavoritedCount - a.FavoritedCount)
       return res.render('topRestaurant', { restaurants: topRestaurants })
