@@ -34,10 +34,13 @@ module.exports = (app, passport) => {
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
   app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
 
-  // 使用者Profile頁面
+  // 使用者Profile頁面 => userController
   app.get('/users/:id', authenticated, userController.getUser)
   app.get('/users/:id/edit', authenticated, userController.editUser)
   app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
+  //我的最愛功能
+  app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
+  app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
 
   // 管理者頁面 => adminController
   // 得到管理者授權
@@ -69,9 +72,7 @@ module.exports = (app, passport) => {
   // 註冊頁面 => userController
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
-
   app.get('/signin', userController.signInPage)
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
-
   app.get('/logout', userController.logout)
 }

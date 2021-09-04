@@ -7,6 +7,7 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const helpers = require('../_helpers')
 const Comment = db.Comment
 const Restaurant =db.Restaurant
+const Favorite = db.Favorite
 // req.user -> helpers.getUser(req)
 
 const userController = {
@@ -83,7 +84,7 @@ const userController = {
       })
   },
 
-  putUser : (req, res) => {
+  putUser: (req, res) => {
     const { name } = req.body
     const { file } = req
     if (!name) {
@@ -120,6 +121,29 @@ const userController = {
         })
     }
   },
+
+  addFavorite: (req, res) => {
+    return Favorite.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    }).then(() => {
+      return res.redirect('back')
+    })
+  },
+
+  removeFavorite: (req, res) => {
+    return Favorite.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    }).then(favorite => {
+      favorite.destroy()
+      .then(() => {
+        return res.redirect('back')
+      })
+    })
+  }
 }
 
 module.exports = userController
