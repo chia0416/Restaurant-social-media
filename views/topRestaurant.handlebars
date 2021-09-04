@@ -25,10 +25,10 @@
       <span class="badge badge-secondary">追蹤人數：{{this.FavoritedCount}}</span>
       <p>
         {{#if this.isFavorited }}
-          <form action="/following/{{this.id}}?_method=DELETE" method="POST" style="display: contents;"><button
+          <form action="/favorite/{{this.id}}?_method=DELETE" method="POST" style="display: contents;"><button
               type="submit" class="btn btn-danger">移除最愛</button></form>
         {{else}}
-          <form action="/following/{{this.id}}" method="POST" style="display: contents;"><button type="submit"
+          <form action="/favorite/{{this.id}}" method="POST" style="display: contents;"><button type="submit"
               class="btn btn-primary">加到最愛</button></form>
         {{/if}}
       </p>
