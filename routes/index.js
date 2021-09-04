@@ -34,7 +34,9 @@ module.exports = (app, passport) => {
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
   app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
 
-  // 使用者Profile頁面 => userController
+  // 使用者頁面 => userController
+  app.get('/users/top', authenticated, userController.getTopUser)
+  //Profile功能
   app.get('/users/:id', authenticated, userController.getUser)
   app.get('/users/:id/edit', authenticated, userController.editUser)
   app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
