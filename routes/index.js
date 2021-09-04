@@ -41,6 +41,8 @@ module.exports = (app, passport) => {
   //我的最愛功能
   app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
+  app.post('/like/:restaurantId', authenticated, userController.addLike)
+  app.delete('/like/:restaurantId', authenticated, userController.removeLike)
 
   // 管理者頁面 => adminController
   // 得到管理者授權
