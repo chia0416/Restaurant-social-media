@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addColumn('Restaurants', 'viewCounts', {
       type: Sequelize.INTEGER,
-      defaultValue: 0,
+      defaultValue: 0
     })
     /**
      * Add altering commands here.
@@ -23,4 +23,4 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
   }
-};
+}

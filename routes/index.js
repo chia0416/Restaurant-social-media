@@ -36,11 +36,11 @@ module.exports = (app, passport) => {
 
   // 使用者頁面 => userController
   app.get('/users/top', authenticated, userController.getTopUser)
-  //Profile功能
+  // Profile功能
   app.get('/users/:id', authenticated, userController.getUser)
   app.get('/users/:id/edit', authenticated, userController.editUser)
   app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
-  //收藏功能
+  // 收藏功能
   app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
   app.post('/like/:restaurantId', authenticated, userController.addLike)

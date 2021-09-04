@@ -10,7 +10,7 @@ module.exports = {
       name: 'root',
       createdAt: new Date(),
       updatedAt: new Date(),
-      image: `https://loremflickr.com/320/240/restaurant,food/?random=${Math.random() * 100}`,
+      image: `https://loremflickr.com/320/240/restaurant,food/?random=${Math.random() * 100}`
     }, {
       email: 'user1@example.com',
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
@@ -18,7 +18,7 @@ module.exports = {
       name: 'user1',
       createdAt: new Date(),
       updatedAt: new Date(),
-      image: `https://loremflickr.com/320/240/restaurant,food/?random=${Math.random() * 100}`,
+      image: `https://loremflickr.com/320/240/restaurant,food/?random=${Math.random() * 100}`
     }, {
       email: 'user2@example.com',
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
@@ -26,7 +26,7 @@ module.exports = {
       name: 'user2',
       createdAt: new Date(),
       updatedAt: new Date(),
-      image: `https://loremflickr.com/320/240/restaurant,food/?random=${Math.random() * 100}`,
+      image: `https://loremflickr.com/320/240/restaurant,food/?random=${Math.random() * 100}`
     }], {})
   },
 
