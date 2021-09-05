@@ -61,9 +61,9 @@ const userController = {
   // Profile頁面
   getUser: (req, res) => {
     // prevent access to other user profile
-    if (helpers.getUser(req).id !== Number(req.params.id)) {
-      return res.redirect(`/users/${getUser(req).id}`)
-    }
+    // if (helpers.getUser(req).id !== Number(req.params.id)) {
+    //   return res.redirect(`/users/${getUser(req).id}`)
+    // }
     return User.findAndCountAll({
       include: [{ model: Comment, include: [Restaurant] }],
       where: { id: Number(req.params.id) }
@@ -152,12 +152,12 @@ const userController = {
     return Like.create({
       UserId: helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
-    }).then(() => {
+    }).then((restaurant) => {
       return res.redirect('back')
     })
   },
 
-  removeLike: (req, res) => {
+  unLike: (req, res) => {
     return Like.findOne({
       where: {
         UserId: helpers.getUser(req).id,
@@ -165,7 +165,7 @@ const userController = {
       }
     }).then(favorite => {
       favorite.destroy()
-        .then(() => {
+        .then((restaurant) => {
           return res.redirect('back')
         })
     })
@@ -189,7 +189,7 @@ const userController = {
 
   addFollowing: (req, res) => {
     return Followship.create({
-      followerId: helpers.getUser(req),
+      followerId: helpers.getUser(req).id,
       followingId: req.params.userId
     }).then(() => {
       return res.redirect('back')
@@ -199,7 +199,7 @@ const userController = {
   removeFollowing: (req, res) => {
     return Followship.findOne({
       where: {
-        followerId: helpers.getUser(req),
+        followerId: helpers.getUser(req).id,
         followingId: req.params.userId
       }
     }).then(followship => {
