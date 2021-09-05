@@ -4,8 +4,10 @@ const Category = db.Category
 const Comment = db.Comment
 const User = db.User
 
-const pageLimit = 10
+const helpers = require('../_helpers')
 // req.user -> helpers.getUser(req)
+const pageLimit = 10
+
 const restController = {
   getRestaurants: (req, res) => {
     let offset = 0 // 偏移量,從第0筆開始

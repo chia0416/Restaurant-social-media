@@ -4,12 +4,13 @@ const User = db.User
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
-const helpers = require('../_helpers')
 const Comment = db.Comment
 const Restaurant = db.Restaurant
 const Favorite = db.Favorite
 const Like = db.Like
 const Followship = db.Followship
+
+const helpers = require('../_helpers')
 // req.user -> helpers.getUser(req)
 
 const userController = {

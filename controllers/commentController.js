@@ -1,5 +1,7 @@
 const db = require('../models')
 const Comment = db.Comment
+
+const helpers = require('../_helpers')
 // req.user -> helpers.getUser(req)
 const commentController = {
   postComment: (req, res) => {
