@@ -9,7 +9,7 @@ const db = require('../models')
 const helpers = require('../_helpers');
 
 describe('# A20: 餐廳資訊整理：Dashboard', function() {
-    
+
   context('# [Q1: Dashboard - 1 - controller / view / route]', () => {
     before(async() => {
       this.ensureAuthenticated = sinon.stub(

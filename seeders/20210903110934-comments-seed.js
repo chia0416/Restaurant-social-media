@@ -9,7 +9,7 @@ module.exports = {
           text: faker.lorem.text().substring(0, 20),
           createdAt: new Date(),
           updatedAt: new Date(),
-          restaurantId: Math.floor(Math.random() * 50) + 51,
+          restaurantId: Math.floor(Math.random() * 50) + 1,
           userId: Math.floor(Math.random() * 3) + 1
         })
       ), {})

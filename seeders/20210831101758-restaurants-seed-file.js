@@ -14,7 +14,8 @@ module.exports = {
           description: faker.lorem.text(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          categoryId: Math.floor(Math.random() * 6) * 10 + 1
+          categoryId: Math.floor(Math.random() * 6) * 10 + 1,
+          viewCounts: Math.floor(Math.random() * 100)
         })
       ), {})
   },
