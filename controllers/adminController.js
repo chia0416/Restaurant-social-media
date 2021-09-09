@@ -36,45 +36,6 @@ const adminController = {
         req.flash('success_messages', data['message'])
         res.redirect('/admin/restaurants')
     })
-    // const { name, tel, address, opening_hours, description, categoryId } = req.body
-    // const { file } = req
-    // if (!name) {
-    //   req.flash('error_messages', '請填寫餐廳名稱!')
-    //   return res.redirect('back')
-    // }
-
-    // if (file) {
-    //   imgur.setClientID(IMGUR_CLIENT_ID)
-    //   imgur.upload(file.path, (err, img) => {
-    //     return Restaurant.create({
-    //       name,
-    //       tel,
-    //       address,
-    //       opening_hours,
-    //       description,
-    //       image: file ? img.data.link : null,
-    //       CategoryId: categoryId
-    //     })
-    //       .then((restaurant) => {
-    //         req.flash('success_messages', '已成功建立餐廳名單')
-    //         res.redirect('/admin/restaurants')
-    //       })
-    //   })
-    // } else {
-    //   return Restaurant.create({
-    //     name,
-    //     tel,
-    //     address,
-    //     opening_hours,
-    //     description,
-    //     image: null,
-    //     CategoryId: categoryId
-    //   })
-    //     .then((restaurant) => {
-    //       req.flash('success_messages', '已成功建立餐廳名單')
-    //       res.redirect('/admin/restaurants')
-    //     })
-    // }
   },
   // 瀏覽餐廳
   getRestaurant: (req, res) => {
@@ -97,50 +58,58 @@ const adminController = {
     })
   },
   putRestaurant: (req, res) => {
-    const { name, tel, address, opening_hours, description, categoryId } = req.body
-    const { file } = req
-    if (!name) {
-      req.flash('error_messages', '請填寫餐廳名稱!')
-      return res.redirect('back')
-    }
-    if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID)
-      imgur.upload(file.path, (err, img) => {
-        return Restaurant.findByPk(req.params.id)
-          .then((restaurant) => {
-            restaurant.update({
-              name,
-              tel,
-              address,
-              opening_hours,
-              description,
-              image: file ? img.data.link : restaurant.image,
-              CategoryId: categoryId
-            })
-              .then((restaurant) => {
-                req.flash('success_messages', '已成功建立餐廳名單')
-                res.redirect('/admin/restaurants')
-              })
-          })
-      })
-    } else {
-      return Restaurant.findByPk(req.params.id)
-        .then((restaurant) => {
-          restaurant.update({
-            name,
-            tel,
-            address,
-            opening_hours,
-            description,
-            image: restaurant.image,
-            CategoryId: categoryId
-          })
-            .then((restaurant) => {
-              req.flash('success_messages', '已成功建立餐廳名單')
-              res.redirect('/admin/restaurants')
-            })
-        })
-    }
+    adminService.putRestaurant(req, res, (data) => {
+      if (data.status === 'error') {
+        req.flash('error_messages', data['message'])
+        return res.redirect('back')
+      }
+      req.flash('success_messages', data['message'])
+      res.redirect('/admin/restaurants')
+    })
+    // const { name, tel, address, opening_hours, description, categoryId } = req.body
+    // const { file } = req
+    // if (!name) {
+    //   req.flash('error_messages', '請填寫餐廳名稱!')
+    //   return res.redirect('back')
+    // }
+    // if (file) {
+    //   imgur.setClientID(IMGUR_CLIENT_ID)
+    //   imgur.upload(file.path, (err, img) => {
+    //     return Restaurant.findByPk(req.params.id)
+    //       .then((restaurant) => {
+    //         restaurant.update({
+    //           name,
+    //           tel,
+    //           address,
+    //           opening_hours,
+    //           description,
+    //           image: file ? img.data.link : restaurant.image,
+    //           CategoryId: categoryId
+    //         })
+    //           .then((restaurant) => {
+    //             req.flash('success_messages', '已成功建立餐廳名單')
+    //             res.redirect('/admin/restaurants')
+    //           })
+    //       })
+    //   })
+    // } else {
+    //   return Restaurant.findByPk(req.params.id)
+    //     .then((restaurant) => {
+    //       restaurant.update({
+    //         name,
+    //         tel,
+    //         address,
+    //         opening_hours,
+    //         description,
+    //         image: restaurant.image,
+    //         CategoryId: categoryId
+    //       })
+    //         .then((restaurant) => {
+    //           req.flash('success_messages', '已成功建立餐廳名單')
+    //           res.redirect('/admin/restaurants')
+    //         })
+    //     })
+    // }
   },
   // 刪除餐廳
   deleteRestaurant: (req, res) => {

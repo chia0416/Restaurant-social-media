@@ -63,6 +63,56 @@ const adminService = {
     }
   },
 
+  putRestaurant: (req, res, callback) => {
+    const { name, tel, address, opening_hours, description, categoryId } = req.body
+    const { file } = req
+    if (!name) {
+      callback({ status: 'error', message: '請填寫餐廳名稱!' })
+      // req.flash('error_messages', '請填寫餐廳名稱!')
+      // return res.redirect('back')
+    }
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        return Restaurant.findByPk(req.params.id)
+          .then((restaurant) => {
+            restaurant.update({
+              name,
+              tel,
+              address,
+              opening_hours,
+              description,
+              image: file ? img.data.link : restaurant.image,
+              CategoryId: categoryId
+            })
+              .then((restaurant) => {
+                callback({ status: 'success', message: '已成功建立餐廳名單' })
+                // req.flash('success_messages', '已成功建立餐廳名單')
+                // res.redirect('/admin/restaurants')
+              })
+          })
+      })
+    } else {
+      return Restaurant.findByPk(req.params.id)
+        .then((restaurant) => {
+          restaurant.update({
+            name,
+            tel,
+            address,
+            opening_hours,
+            description,
+            image: restaurant.image,
+            CategoryId: categoryId
+          })
+            .then((restaurant) => {
+              callback({ status: 'success', message: '已成功建立餐廳名單' })
+              // req.flash('success_messages', '已成功建立餐廳名單')
+              // res.redirect('/admin/restaurants')
+            })
+        })
+    }
+  },
+
   deleteRestaurant: (req, res, callback) => {
     return Restaurant.findByPk(req.params.id)
       .then((restaurant) => {
