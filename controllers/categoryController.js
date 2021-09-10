@@ -25,18 +25,14 @@ const categoryController = {
 
   // 編輯分類名稱
   putCategory: (req, res) => {
-    if (!req.body.name) {
-      req.flash('error_message', '請輸入分類名稱')
-      return res.redirect('back')
-    } else {
-      return Category.findByPk(req.params.id)
-        .then((category) => {
-          category.update(req.body)
-            .then(() => {
-              res.redirect('/admin/categories')
-            })
-        })
-    }
+    categoryService.putCategory(req, res, (data) => {
+      if (data.status === 'error') {
+        req.flash('error_message', data.message)
+        return res.redirect('back')
+      } else {
+        return res.redirect('/admin/categories')
+      }
+    })
   },
 
   // 刪除分類
