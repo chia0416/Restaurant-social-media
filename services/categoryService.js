@@ -22,6 +22,21 @@ const categoryService = {
     })
   },
 
+  postCategory: (req, res, callback) => {
+    if (!req.body.name) {
+      callback({ status: 'error', message: '請輸入分類名稱'})
+      // req.flash('error_message', '請輸入分類名稱')
+      // return res.redirect('back')
+    } else {
+      return Category.create({
+        name: req.body.name
+      })
+        .then(() => {
+          callback({ status: 'success', message: ''})
+          // res.redirect('/admin/categories')
+        })
+    }
+  },
 }
 
 module.exports = categoryService

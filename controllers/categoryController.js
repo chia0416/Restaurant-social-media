@@ -13,17 +13,14 @@ const categoryController = {
 
   // 新增分類名稱
   postCategory: (req, res) => {
-    if (!req.body.name) {
-      req.flash('error_message', '請輸入分類名稱')
-      return res.redirect('back')
-    } else {
-      return Category.create({
-        name: req.body.name
-      })
-        .then(() => {
-          res.redirect('/admin/categories')
-        })
-    }
+    categoryService.postCategory(req, res, (data) => {
+      if (data.status === 'error') {
+        req.flash('error_message', data.message)
+        return res.redirect('back')
+      } else {
+        return res.redirect('/admin/categories')
+      }
+    })
   },
 
   // 編輯分類名稱
