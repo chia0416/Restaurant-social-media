@@ -1,54 +1,85 @@
-# README
+<h2> Restaurant-social-media</h2>
 
-## 初始化
-### Initialize
-```
-git clone https://github.com/your_github_name/forum-express-2020
-cd forum-express
-git remote add upstream https://github.com/ALPHACamp/forum-express-2020.git  # 建立上游連線
-npm install
-```
+一個使用 Node.js + Express 打造的餐廳美食網站，提供使用者可依照餐廳名稱與類別進行搜尋及排序。
 
-### 設定資料庫
-需要與 config/config.json 一致
+<h3>專案畫面</h3>
 
-```
-create database forum;
-create database forum_test;
-```
+<h3>Features - 產品功能</h3>
 
-### 切換環境
+<ol>
+<li>使用 Node.js + Express + Mongodb 打造的餐廳美食網站 </li>
+<li>使用者可以點擊任一餐廳，查看更多餐廳資訊，如餐廳地址、電話與簡介  </li>
+<li>使用者可以依照餐廳名稱或類別進行搜尋  </li>
+<li>新增"新增"、"修改"、"刪除"功能，並可將資訊傳至資料庫</li>
+<li>新增"排序"功能</li>
+<li>重購路由器的位置，增加文件的易讀性</li>
+<li>新增"使用者介面"、信箱"註冊及登入"功能</li>
+<li>新增"FB登入"功能</li>
+</ol>
 
-```
-export NODE_ENV=test   # 切換到測試環境，如果在等號後加其他的字串，則會切到其他的環境
-echo $NODE_ENV         # 印出目前使用的環境
-```
+<h3>Installing - 專案安裝流程</h3>
+<ol>
+<li>確認是否已安裝Node.js</li>
+<pre><code>在Terminal 輸入 node -v 指令</code></pre>
 
-### 執行測試
-```
-npm run test
-```
+<li>如果沒出現版本符號，請先使用nvm 安裝Node.js</li>
+<pre><code>請參考此網址 https://www.onejar99.com/nvm-install-for-windows/</code></pre>
 
-## 下載作業規格
-以 A17 為例
+<li>打開你的 terminal，Clone 此專案至本機電腦 </li>
+<pre><code>https://github.com/chia0416/Restaurant-social-media.git </code></pre>
 
-```
-git checkout -b A17           # 開新分支
-git merge origin/A17-test     # 下載作業規格
-npm run test                  # 直到綠燈全亮
+<li>開啟終端機(Terminal)，進入存放此專案的資料夾 </li>
+<pre><code> cd restaurant_list </code></pre>
 
-git add .
-git commit -m "...."
-```
+<li>安裝 npm 套件 </li>
+<pre><code>在 Terminal 輸入 npm install 指令</code></pre>
 
-## 繳交作業
+<li>安裝 nodemon 套件 </li>
+<pre><code>在 Terminal 輸入 npm install -g nodemon 指令</code></pre>
 
-```
-git push origin A17           # 上傳本地進度
-```
+<li>啟動伺服器，執行 app.js 檔案 </li>
+<pre><code>在 Terminal 輸入 nodemon app.js 或者 npm run dev 指令即可</code></pre>
 
-接著改成到 GitHub 來發 PR。
+<li>建立種子資料</li>
+<pre><code>在 Terminal 輸入npm run seed 指令</code></pre>
 
-## 共用帳號
-請一律設定一個共用的 root user
-root@example.com，登入密碼 12345678
+<li>當 terminal 出現以下字樣，表示伺服器已啟動並成功連結 </li>
+<pre><code> Express is running on http://localhost:3000 </code></pre>  
+  
+現在，你可開啟任一瀏覽器瀏覽器輸入 http://localhost:3000 開始囉！
+<br>
+<h3>測試用帳號</h3>
+<br>
+帳號：root＠example.com
+<br>
+密碼：12345678
+  
+<h3>套件</h3>
+
+    
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2",
+    "express-session": "^1.17.2",
+    "faker": "^5.5.3",
+    "imgur-node-api": "^0.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
+    "mocha": "^8.2.0",
+    "moment": "^2.29.1",
+    "multer": "^1.4.3",
+    "mysql2": "^2.2.5",
+    "nodemon": "^2.0.12",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.7.1",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0",
+    "sinon": "^9.2.0",
+    "supertest": "^5.0.0"
+  
