@@ -4,17 +4,18 @@
 
 <h3>專案畫面</h3>
 
+![image](https://github.com/chia0416/Restaurant-social-media/blob/master/public/shotcut.png)
+
 <h3>Features - 產品功能</h3>
 
 <ol>
-<li>使用 Node.js + Express + Mongodb 打造的餐廳美食網站 </li>
-<li>使用者可以點擊任一餐廳，查看更多餐廳資訊，如餐廳地址、電話與簡介  </li>
-<li>使用者可以依照餐廳名稱或類別進行搜尋  </li>
-<li>新增"新增"、"修改"、"刪除"功能，並可將資訊傳至資料庫</li>
-<li>新增"排序"功能</li>
-<li>重購路由器的位置，增加文件的易讀性</li>
+<li>使用 Node.js + Express + MySQL 打造的餐廳論壇 </li>
+<li>使用者可以點擊任一餐廳，查看更多餐廳資訊，如餐廳地址、電話與簡介並且追蹤  </li>
+<li>使用者可以依照類別進行搜尋</li>
+<li>使用者可閱覽最新的餐廳訊息及前十名的餐廳</li>
+<li>使用者可以追蹤其他使用者、並查詢其他使用者的餐廳評論</li>
+<li>管理者可新增餐廳及更改他人的管理權限</li>
 <li>新增"使用者介面"、信箱"註冊及登入"功能</li>
-<li>新增"FB登入"功能</li>
 </ol>
 
 <h3>Installing - 專案安裝流程</h3>
